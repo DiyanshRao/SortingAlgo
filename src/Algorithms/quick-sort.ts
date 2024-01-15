@@ -67,7 +67,6 @@ function partition(
     arr.map((a, index) => {
       if (index === arr.length - 1) {
         return {
-          color: '#DC143C',
           ...a,
         }
       }
