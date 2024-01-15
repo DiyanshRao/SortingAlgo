@@ -1,25 +1,25 @@
-// #32CD32  green
-// red
+interface Element {
+  value: number
+  compare: boolean
+  sorted: boolean
+  color: string
+}
 
-export const quickSort = (state) => {
-  console.log('Quick Sort Called')
-  const arr = state.map((objArr) => objArr)
-  const history = []
+export const quickSort = (state: Element[]): Element[][] => {
+  const arr: Element[] = state.map((objArr) => ({ ...objArr }))
+  const history: Element[][] = []
 
-  // push initial state
   history.push(
     arr.map((a) => {
       return { ...a }
     })
   )
+
   let start = 0
   let end = arr.length - 1
 
   Quick_sort(arr, start, end, history)
-  // print history and check
-  //  history.map( obj => console.log(obj));
 
-  // push all sorted element with green color
   history.push(
     arr.map((a) => {
       return {
@@ -28,7 +28,7 @@ export const quickSort = (state) => {
       }
     })
   )
-  // push with defaut color color
+
   history.push(
     arr.map((a) => {
       return {
@@ -40,7 +40,12 @@ export const quickSort = (state) => {
   return history
 }
 
-function Quick_sort(arr, start, end, history) {
+function Quick_sort(
+  arr: Element[],
+  start: number,
+  end: number,
+  history: Element[][]
+) {
   if (start < end) {
     let pMid = partition(arr, start, end, history)
     console.log(pMid)
@@ -50,12 +55,16 @@ function Quick_sort(arr, start, end, history) {
   return
 }
 
-function partition(arr, start, end, history) {
+function partition(
+  arr: Element[],
+  start: number,
+  end: number,
+  history: Element[][]
+): number {
   let pivot = arr[end].value
-  // copy in history with pivot as orange color
+
   history.push(
     arr.map((a, index) => {
-      //  return {...a};
       if (index === arr.length - 1) {
         return {
           color: '#DC143C',
@@ -70,10 +79,8 @@ function partition(arr, start, end, history) {
     j = start
 
   while (j < end) {
-    // j index become white because we are comparing with pivot
     history.push(
       arr.map((a, index) => {
-        //  return {...a};
         if (index === j || index === end) {
           return {
             ...a,
@@ -85,7 +92,6 @@ function partition(arr, start, end, history) {
     )
 
     if (arr[j].value <= pivot) {
-      // make j as green becz it is smaller than pivot
       history.push(
         arr.map((a, index) => {
           if (index === j) {
@@ -102,7 +108,7 @@ function partition(arr, start, end, history) {
       arr[i] = arr[j]
       arr[j] = temp
     }
-    // make j as red
+
     history.push(
       arr.map((a, index) => {
         if (index === j) {
@@ -121,7 +127,7 @@ function partition(arr, start, end, history) {
   let temp = arr[++i]
   arr[i] = arr[end]
   arr[end] = temp
-  // make i as green becz it got it's position
+
   history.push(
     arr.map((a, index) => {
       if (index === i) {

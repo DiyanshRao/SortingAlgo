@@ -1,9 +1,15 @@
-export const mergeSort = (state) => {
-  console.log('merge sort called')
-  let history = []
-  const arr = state.map((objarr) => objarr)
+interface Element {
+  value: number
+  compare: boolean
+  sorted: boolean
+  color: string
+}
 
-  // push intitial state
+export const mergeSort = (state: Element[]): Element[][] => {
+  console.log('merge sort called')
+  let history: Element[][] = []
+  const arr: Element[] = state.map((objarr) => ({ ...objarr }))
+
   history.push(
     arr.map((obj) => {
       return { ...obj }
@@ -13,10 +19,8 @@ export const mergeSort = (state) => {
   let startIndex = 0
   let endIndex = arr.length - 1
 
-  // history array is pass by reference by default
   merge_sort(arr, startIndex, endIndex, history)
 
-  // make sorted element green
   history.push(
     arr.map((obj, idx) => {
       return {
@@ -25,7 +29,7 @@ export const mergeSort = (state) => {
       }
     })
   )
-  // make it default color
+
   history.push(
     arr.map((obj, idx) => {
       return {
@@ -37,7 +41,12 @@ export const mergeSort = (state) => {
   return history
 }
 
-function merge_sort(arr, startIndex, endIndex, history) {
+function merge_sort(
+  arr: Element[],
+  startIndex: number,
+  endIndex: number,
+  history: Element[][]
+) {
   if (startIndex < endIndex) {
     let mid = Math.floor((startIndex + endIndex) / 2)
 
@@ -48,24 +57,29 @@ function merge_sort(arr, startIndex, endIndex, history) {
   return
 }
 
-function merge(arr, startIndex, mid, endIndex, history) {
-  let leftArr = []
-  // copy left sorted array
+function merge(
+  arr: Element[],
+  startIndex: number,
+  mid: number,
+  endIndex: number,
+  history: Element[][]
+) {
+  let leftArr: Element[] = []
+
   for (let i = startIndex; i <= mid; i++) {
     leftArr.push({ ...arr[i] })
   }
-  // push int  max
-  leftArr.push({ value: 999999 })
 
-  let rightArr = []
-  // copy right sorted array
+  leftArr.push({ value: 999999, compare: false, sorted: false, color: '' })
+
+  let rightArr: Element[] = []
+
   for (let i = mid + 1; i <= endIndex; i++) {
     rightArr.push({ ...arr[i] })
   }
-  //push in t max
-  rightArr.push({ value: 999999 })
 
-  /* make mid as red color  */
+  rightArr.push({ value: 999999, compare: false, sorted: false, color: '' })
+
   history.push(
     arr.map((obj, idx) => {
       if (idx === mid) {
@@ -95,7 +109,6 @@ function merge(arr, startIndex, mid, endIndex, history) {
     }
   }
 
-  // make it default color
   history.push(
     arr.map((obj, idx) => {
       return {
